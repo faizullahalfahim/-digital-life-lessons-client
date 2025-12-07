@@ -8,6 +8,7 @@ import AboutUs from "../pages/Home/Home/AboutUs";
 import Services from "../pages/Home/Home/dashboard/Services";
 import AuthLayout from "../Layouts/AuthLayout";
 import Login from "../pages/Auth/Login/Login";
+import PublicLessons from "../pages/Home/Home/PublicLessons";
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ export const router = createBrowserRouter([
       {
         path: "services",
         Component: Services,
-      },
+      }
     ],
   },
   {
