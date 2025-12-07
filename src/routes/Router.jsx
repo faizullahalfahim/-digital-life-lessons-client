@@ -9,6 +9,7 @@ import Services from "../pages/Home/Home/dashboard/Services";
 import AuthLayout from "../Layouts/AuthLayout";
 import Login from "../pages/Auth/Login/Login";
 import PublicLessons from "../pages/Home/Home/PublicLessons";
+import Register from "../pages/Auth/Register/Register";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
         {
             path: 'login',
             Component: Login
+        },
+        {
+          path: 'register',
+          Component: Register
         }
     ]
 

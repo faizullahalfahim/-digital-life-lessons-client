@@ -16,29 +16,18 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = async (data) => {
-    setServerError("");
-    setLoading(true);
-
-    try {
-      // assuming signInUser returns a promise
-      const result = await signInUser(data.email, data.password);
-      // console.log(result.user);
-      // redirect to previous location or home
-      navigate(location?.state || "/");
-    } catch (err) {
-      // You can map specific error messages here
-      setServerError(
-        err?.message || "Login failed. Please check your credentials and try again."
-      );
-      console.error("Login error:", err);
-    } finally {
-      setLoading(false);
-    }
+  const handleLogin = (data) => {
+    console.log("form data", data);
+    signInUser(data.email, data.password)
+      .then((result) => {
+        console.log(result.user);
+        navigate(location?.state || "/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -48,25 +37,27 @@ const Login = () => {
           {/* header */}
           <div className="px-6 py-7 text-center bg-gradient-to-r from-sky-600 to-indigo-600">
             <h1 className="text-2xl font-extrabold text-white">Welcome Back</h1>
-            <p className="text-sm text-sky-100 mt-1">Sign in to continue to Digital Life Lessons</p>
+            <p className="text-sm text-sky-100 mt-1">
+              Sign in to continue to Digital Life Lessons
+            </p>
           </div>
 
           {/* body */}
           <div className="p-6">
             {/* server error */}
-            {serverError && (
-              <div
-                role="alert"
-                className="mb-4 rounded-md bg-red-50 border border-red-100 text-red-700 px-4 py-3"
-              >
-                {serverError}
-              </div>
-            )}
+            
 
-            <form onSubmit={handleSubmit(handleLogin)} className="space-y-4" noValidate>
+            <form
+              onSubmit={handleSubmit(handleLogin)}
+              className="space-y-4"
+              noValidate
+            >
               {/* email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Email
                 </label>
                 <input
@@ -95,7 +86,10 @@ const Login = () => {
 
               {/* password */}
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Password
                 </label>
 
@@ -109,7 +103,10 @@ const Login = () => {
                     }`}
                     {...register("password", {
                       required: "Password is required",
-                      minLength: { value: 6, message: "Password must be at least 6 characters" },
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters",
+                      },
                     })}
                     aria-invalid={errors.password ? "true" : "false"}
                   />
@@ -117,7 +114,9 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword((s) => !s)}
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                     className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none"
                   >
                     {showPassword ? "Hide" : "Show"}
@@ -132,10 +131,14 @@ const Login = () => {
               </div>
 
               <div className="flex items-center justify-between text-sm">
-                <Link to="/forgot-password" className="text-sky-600 hover:underline">
+                <Link
+                  to="/forgot-password"
+                  className="text-sky-600 hover:underline"
+                >
                   Forgot password?
                 </Link>
-                <span className="text-gray-500">Need an account?{" "}
+                <span className="text-gray-500">
+                  Need an account?{" "}
                   <Link to="/register" className="text-sky-600 hover:underline">
                     Register
                   </Link>
@@ -146,35 +149,11 @@ const Login = () => {
                 <button
                   type="submit"
                   className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 font-semibold shadow-md disabled:opacity-60 disabled:cursor-not-allowed transition"
-                  disabled={loading}
+                 
                 >
-                  {loading ? (
-                    <>
-                      <svg
-                        className="h-4 w-4 animate-spin text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                        ></path>
-                      </svg>
-                      <span>Signing in...</span>
-                    </>
-                  ) : (
+                  
                     <span>Login</span>
-                  )}
+               
                 </button>
               </div>
             </form>
