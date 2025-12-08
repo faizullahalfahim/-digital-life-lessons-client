@@ -1,115 +1,163 @@
 import React from "react";
-import { Star, Clock, BookOpen, DollarSign, Zap } from "lucide-react";
+import { Link } from "react-router";
+import {
+  Star,
+  Clock,
+  BookOpen,
+  Heart,
+  Bookmark,
+  Eye,
+  Crown,
+  User,
+} from "lucide-react";
 
 const LessonCard = ({ lesson }) => {
-  // Destructuring lesson object using the provided field names, including _id
   const {
     _id,
     title,
     category,
-    level,
-    durationMinutes,
-    isFree,
-    rating,
-    instructor,
-    imageUrl,
-    description, // Added for potential use
+    emotionalTone,
+    accessLevel,
+    creator,
+    imageURL,
+    description,
+    likesCount = 0,
+    favoritesCount = 0,
+    views = 0,
+    createdAt,
   } = lesson;
 
-  // Logic to round rating and calculate duration
-  const displayRating = rating ? rating.toFixed(1) : "N/A";
-  const durationHours = Math.ceil(durationMinutes / 60);
+  const readMinutes = description
+    ? Math.max(1, Math.ceil(description.split(/\s+/).length / 180))
+    : 1;
 
-  // Logic to set badge color based on level
-  const getLevelBadge = (level) => {
-    switch (level?.toLowerCase()) {
-      case "beginner":
-        return "badge-success text-white";
-      case "intermediate":
-        return "badge-warning text-white";
-      case "advanced":
-        return "badge-error text-white";
+  const toneClass = (tone) => {
+    switch ((tone || "").toLowerCase()) {
+      case "motivational":
+        return "bg-amber-100 text-amber-800";
+      case "emotional":
+        return "bg-rose-100 text-rose-800";
+      case "calm":
+        return "bg-sky-100 text-sky-800";
+      case "reflective":
+        return "bg-indigo-100 text-indigo-800";
       default:
-        return "badge-info text-white";
+        return "bg-slate-100 text-slate-800";
     }
   };
 
   return (
-    // Card container: uses _id for the detail link
-    <a
-      href={`/lessons/${_id}`}
-      className="card w-full bg-white shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition duration-300 group cursor-pointer border border-gray-100"
-    >
-      {/* 1. Lesson Image & Badges */}
-      <figure className="relative h-48 overflow-hidden">
-        <img
-          src={imageUrl}
-          alt={title}
-          className="w-full h-full object-cover transition duration-300 group-hover:opacity-90"
-        />
+    <Link to={`/lessons/${_id}`} className="block">
+      <article className="group rounded-xl bg-white border shadow-md hover:shadow-xl transition overflow-hidden">
 
-        {/* Level Badge (Top Left) */}
-        <div
-          className={`badge absolute top-3 left-3 ${getLevelBadge(
-            level
-          )} font-semibold z-10 p-3`}
-        >
-          <Zap className="h-4 w-4 mr-1" />
-          {level}
-        </div>
+        {/* Image section */}
+        <div className="relative h-48 bg-gray-100">
+          {imageURL ? (
+            <img
+              src={imageURL}
+              alt={title}
+              loading="lazy"
+              className="w-full h-full object-cover group-hover:opacity-90 transition"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-gray-400">
+              <BookOpen className="w-10 h-10 opacity-40" />
+            </div>
+          )}
 
-        {/* Free/Premium Tag (Top Right) */}
-        <div
-          className={`badge absolute top-3 right-3 text-white font-bold p-3 ${
-            isFree ? "bg-green-600" : "bg-red-600"
-          }`}
-        >
-          {isFree ? "FREE" : <DollarSign className="h-4 w-4" />}
-        </div>
-      </figure>
-
-      {/* 2. Card Body */}
-      <div className="card-body p-6">
-        {/* Title */}
-        <h2 className="card-title text-xl font-bold text-gray-800 group-hover:text-primary transition duration-300 min-h-[60px]">
-          {title}
-        </h2>
-
-        {/* Instructor & Category */}
-        <p className="text-sm text-gray-500 flex flex-col gap-1 mt-1">
-          <span className="flex items-center gap-1">
-            <BookOpen className="h-4 w-4 text-gray-400" />
-            Instructor:{" "}
-            <span className="font-medium text-gray-700">{instructor}</span>
+          {/* Tone Badge */}
+          <span
+            className={`absolute top-3 left-3 text-xs px-2 py-1 rounded-md font-semibold ${toneClass(
+              emotionalTone
+            )}`}
+          >
+            {emotionalTone || "Tone"}
           </span>
-          <span className="text-xs font-semibold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full inline-block w-fit mt-1">
+
+          {/* Access Badge */}
+          <span
+            className={`absolute top-3 right-3 px-2 py-1 rounded-md text-xs font-bold ${
+              accessLevel === "free"
+                ? "bg-green-600 text-white"
+                : "bg-yellow-600 text-white flex items-center gap-1"
+            }`}
+          >
+            {accessLevel === "free" ? (
+              "FREE"
+            ) : (
+              <>
+                <Crown className="w-3 h-3" /> PREMIUM
+              </>
+            )}
+          </span>
+        </div>
+
+        {/* Content */}
+        <div className="p-5">
+          {/* Title */}
+          <h3 className="text-lg font-semibold text-gray-800 group-hover:text-primary transition min-h-[50px]">
+            {title}
+          </h3>
+
+          {/* Creator */}
+          <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
+            {creator?.photoURL ? (
+              <img
+                src={creator.photoURL}
+                className="w-6 h-6 rounded-full"
+                alt="creator"
+              />
+            ) : (
+              <User className="w-5 h-5 text-gray-400" />
+            )}
+            <span>{creator?.name || creator || "Unknown Author"}</span>
+          </div>
+
+          {/* Category */}
+          <span className="mt-2 inline-block text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
             {category}
           </span>
-        </p>
 
-        {/* 3. Meta Data (Rating & Duration) */}
-        <div className="flex justify-between items-center text-sm mt-3 border-t pt-3">
-          {/* Rating */}
-          <div className="flex items-center gap-1 font-semibold text-yellow-600">
-            <Star className="h-4 w-4 fill-yellow-500 stroke-yellow-500" />
-            {displayRating} Rating
+          {/* Description snippet */}
+          <p className="mt-3 text-sm text-gray-600 line-clamp-3">
+            {description || "No description available."}
+          </p>
+
+          {/* Meta info */}
+          <div className="mt-4 flex items-center justify-between border-t pt-3 text-sm text-gray-500">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1">
+                <Clock className="w-4 h-4 text-gray-400" />
+                {readMinutes} min read
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 text-xs">
+              <span className="flex items-center gap-1">
+                <Heart className="w-4 h-4 text-red-500" /> {likesCount}
+              </span>
+              <span className="flex items-center gap-1">
+                <Bookmark className="w-4 h-4 text-yellow-600" /> {favoritesCount}
+              </span>
+              <span className="flex items-center gap-1">
+                <Eye className="w-4 h-4 text-blue-600" /> {views}
+              </span>
+            </div>
           </div>
 
-          {/* Duration */}
-          <div className="flex items-center gap-1 text-gray-600">
-            <Clock className="h-4 w-4 text-primary" />
-            {durationHours} Hours
+          {/* CTA */}
+          <div className="mt-4 flex justify-end">
+            <button
+              className={`btn btn-sm ${
+                accessLevel === "free" ? "btn-primary" : "btn-outline"
+              }`}
+            >
+              {accessLevel === "free" ? "Start Now" : "View Lesson"}
+            </button>
           </div>
         </div>
-
-        {/* 4. Action Area */}
-        <div className="card-actions justify-end mt-4">
-          <button className="btn btn-sm btn-primary text-white hover:bg-blue-700">
-            {isFree ? "Start Now" : "View Details"}
-          </button>
-        </div>
-      </div>
-    </a>
+      </article>
+    </Link>
   );
 };
 

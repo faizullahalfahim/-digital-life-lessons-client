@@ -10,6 +10,7 @@ import AuthLayout from "../Layouts/AuthLayout";
 import Login from "../pages/Auth/Login/Login";
 import PublicLessons from "../pages/Home/Home/PublicLessons";
 import Register from "../pages/Auth/Register/Register";
+import LessonDetails from "../pages/Home/Home/LessonDetails";
 
 export const router = createBrowserRouter([
   {
@@ -28,8 +29,12 @@ export const router = createBrowserRouter([
       {
         path: "services",
         Component: Services,
+      },
+      {
+        path: 'lessons/:id',
+        element: <LessonDetails> </LessonDetails>
       }
-    ],
+    ],         
   },
   {
     path: "/",

@@ -23,7 +23,7 @@ const Login = () => {
     signInUser(data.email, data.password)
       .then((result) => {
         console.log(result.user);
-        navigate(location?.state || "/");
+        navigate(location.state || "/");
       })
       .catch((error) => {
         console.log(error);

@@ -19,9 +19,11 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.68.0",
+    "react-hot-toast": "^2.6.0",
     "react-responsive-carousel": "^3.2.23",
     "react-router": "^7.10.1",
-    "tailwindcss": "^4.1.17"
+    "tailwindcss": "^4.1.17",
+    "upload-imgbb": "^1.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

@@ -6,6 +6,8 @@ import SocialLogin from "../SocialLogin/SocialLogin";
 
 import useAuth from "../../../hooks/UseAuth";
 import { UserPlus } from "lucide-react";
+import axios from "axios";
+
 
 const Register = () => {
   const {
@@ -19,27 +21,37 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleRegistration = (data) => {
-    // 1. Firebase Register: ইউজার তৈরি করা
+    const profileImg = data.photo[0];
+
     registerUser(data.email, data.password)
-      .then((result) => {
-        const userProfile = {
-          displayName: data.name,
-        };
+      .then(() => {
+        // 1. store the image in form data
+        const formData = new FormData();
+        formData.append("image", profileImg);
 
-        updateUserProfile(userProfile)
-          .then(() => {
-            console.log(
-              "User registered in Firebase and profile updated successfully."
-            );
+        // 2. send the photo to store and get the ul
+        const image_API_URL = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_image_host
+        }`;
 
-            navigate(location.state || "/");
-          })
-          .catch((error) => {
-            console.error("Error updating profile:", error);
-          });
+        axios.post(image_API_URL, formData).then((res) => {
+          const photoURL = res.data.data.url;
+
+          const userProfile = {
+            displayName: data.name,
+            photoURL: photoURL,
+          };
+
+          updateUserProfile(userProfile)
+            .then(() => {
+              console.log("user profile updated done.");
+              navigate(location.state || "/");
+            })
+            .catch((error) => console.log(error));
+        });
       })
       .catch((error) => {
-        console.error("Registration Error:", error);
+        console.log(error);
       });
   };
 
