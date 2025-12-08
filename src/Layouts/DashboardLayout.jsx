@@ -14,11 +14,9 @@ import Navbar from "../components/Navbar/Navbar";
 
 const sidebarNavItems = [
   { name: "Overview", href: "/dashboard", Icon: BarChart },
-  { name: "My Lessons", href: "/dashboard/my-lessons", Icon: BookOpen },
-  { name: "Add Lessons", href: "/dashboard/add-lesson", Icon: PlusCircle },
-  { name: "favorites", href: "/dashboard/favorites", Icon: Heart },
-  { name: "Profile", href: "/dashboard/profile", Icon: User },
-  { name: "settings", href: "/dashboard/settings", Icon: Settings },
+  
+ 
+ 
 ];
 
 const statsData = [

@@ -33,7 +33,16 @@ export const router = createBrowserRouter([
       {
         path: 'lessons/:id',
         element: <LessonDetails> </LessonDetails>
-      }
+      },
+      {
+        
+        path: "add-lesson",
+        Component: AddLessons,
+      
+      }, {
+        path: "my-lessons",
+        Component: MyLesson,
+      },
     ],         
   },
   {
@@ -55,14 +64,8 @@ export const router = createBrowserRouter([
     path: "dashboard",
     Component: DashboardLayout,
     children: [
-      {
-        path: "add-lesson",
-        Component: AddLessons,
-      },
-      {
-        path: "my-lessons",
-        Component: MyLesson,
-      },
+      
+     
     ],
   },
 ]);

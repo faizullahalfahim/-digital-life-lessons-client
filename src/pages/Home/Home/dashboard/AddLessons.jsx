@@ -89,7 +89,7 @@ const AddLessons = () => {
       updatedAt: new Date().toISOString(),
     };
 
-    console.log("Final Lesson Data Ready for Backend:", lessonData);
+    console.table("Final Lesson Data Ready for Backend:", lessonData);
 
     try {
       alert("Lesson submitted successfully! Check console for final data.");

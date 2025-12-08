@@ -12,9 +12,13 @@ const Navbar = () => {
   const links = (
     <div className="flex flex-col gap-4 text-base font-medium"> 
       {/* Links are now exclusively for the drawer */}
-      <NavLink to="/lessons" className="hover:text-primary transition">
-        Lessons
+      <NavLink to="/add-lesson" className="hover:text-primary transition">
+         Add Lesson
       </NavLink>
+      <NavLink to="/my-lesson" className="hover:text-primary transition">
+         My Lesson
+      </NavLink>
+      
 
       <NavLink to="/services" className="hover:text-primary transition">
         Services
