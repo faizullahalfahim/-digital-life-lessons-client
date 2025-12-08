@@ -1,40 +1,26 @@
 import React from "react";
-import { Menu, LogOut, User as UserIcon, LogIn } from "lucide-react";
+import {
+  Menu,
+  LogOut,
+  User as UserIcon,
+  LogIn,
+  PlusSquare,
+  BookOpen,
+  Layers,
+  Info,
+  Home,
+  BarChart,
+  Settings,
+  Grid,
+} from "lucide-react";
 import Logo from "../Logo/Logo";
-import { Link, NavLink } from "react-router"; 
+import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/UseAuth";
 
 const Navbar = () => {
   const { user, logOut, loading } = useAuth();
 
   const drawerId = "main-drawer";
-
-  const links = (
-    <div className="flex flex-col gap-4 text-base font-medium"> 
-      {/* Links are now exclusively for the drawer */}
-      <NavLink to="/add-lesson" className="hover:text-primary transition">
-         Add Lesson
-      </NavLink>
-      <NavLink to="/my-lesson" className="hover:text-primary transition">
-         My Lesson
-      </NavLink>
-      
-
-      <NavLink to="/services" className="hover:text-primary transition">
-        Services
-      </NavLink>
-
-      <NavLink to="/about" className="hover:text-primary transition">
-        About Us
-      </NavLink>
-
-      {user && (
-        <NavLink to="/dashboard" className="hover:text-primary transition">
-          Dashboard
-        </NavLink>
-      )}
-    </div>
-  );
 
   const handleLogout = () => {
     logOut()
@@ -44,6 +30,113 @@ const Navbar = () => {
       .catch((error) => console.error(error));
   };
 
+  // Drawer links with icons (used both in sidebar and in top menu if needed)
+  const links = (
+    <div className="flex flex-col gap-3 text-base font-medium">
+      <NavLink
+        to="/add-lesson"
+        className="flex items-center gap-3 px-2 py-2 rounded-md hover:bg-slate-100 transition"
+      >
+        <PlusSquare className="w-5 h-5 text-slate-600" />
+        <span>Add Lesson</span>
+      </NavLink>
+
+      <NavLink
+        to="/my-lessons"
+        className="flex items-center gap-3 px-2 py-2 rounded-md hover:bg-slate-100 transition"
+      >
+        <BookOpen className="w-5 h-5 text-slate-600" />
+        <span>My Lessons</span>
+      </NavLink>
+
+      <NavLink
+        to="/services"
+        className="flex items-center gap-3 px-2 py-2 rounded-md hover:bg-slate-100 transition"
+      >
+        <Layers className="w-5 h-5 text-slate-600" />
+        <span>Services</span>
+      </NavLink>
+
+      <NavLink
+        to="/about"
+        className="flex items-center gap-3 px-2 py-2 rounded-md hover:bg-slate-100 transition"
+      >
+        <Info className="w-5 h-5 text-slate-600" />
+        <span>About Us</span>
+      </NavLink>
+
+      {/* Dashboard dropdown (only if user) */}
+      {user && (
+        <div className="mt-2">
+          <div className="dropdown w-full">
+            <div
+              tabIndex={0}
+              role="button"
+              className="flex items-center justify-between gap-3 px-2 py-2 rounded-md hover:bg-slate-100 cursor-pointer"
+            >
+              <div className="flex items-center gap-3">
+                <Grid className="w-5 h-5 text-slate-600" />
+                <span className="font-medium">Dashboard</span>
+              </div>
+              <svg
+                className="w-4 h-4 text-slate-500"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M6 9l6 6 6-6"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 mt-2 z-40"
+            >
+              <li>
+                <Link
+                  to="/dashboard"
+                  className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
+                >
+                  <Home className="w-4 h-4 text-slate-600" /> Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard/profile"
+                  className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
+                >
+                  <UserIcon className="w-4 h-4 text-slate-600" /> Profile
+                  Settings
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard/analytics"
+                  className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
+                >
+                  <BarChart className="w-4 h-4 text-slate-600" /> Analytics
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard/settings"
+                  className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
+                >
+                  <Settings className="w-4 h-4 text-slate-600" /> Settings
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="drawer">
       <input id={drawerId} type="checkbox" className="drawer-toggle" />
@@ -51,11 +144,7 @@ const Navbar = () => {
       <div className="drawer-content flex flex-col">
         <div className="navbar bg-white text-gray-800 shadow-md sticky top-0 z-20 px-4 xl:px-8 h-16">
           <div className="flex items-center gap-3">
-            {/* HACKERGER ICON: Visible on ALL screen sizes (no lg:hidden) */}
-            <label
-              htmlFor={drawerId}
-              className="btn btn-ghost btn-circle" 
-            >
+            <label htmlFor={drawerId} className="btn btn-ghost btn-circle">
               <Menu className="h-5 w-5" />
             </label>
 
@@ -64,16 +153,32 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <div className="flex items-center gap-6 ml-auto">
-            {/* Desktop Links removed */}
+          <div className="hidden md:flex items-center gap-6 ml-auto">
+            {/* desktop quick links (optional) */}
+            <NavLink to="/" className="text-sm hover:text-primary transition">
+              Home
+            </NavLink>
+            <NavLink
+              to="/public-lessons"
+              className="text-sm hover:text-primary transition"
+            >
+              Lessons
+            </NavLink>
+            <NavLink
+              to="/pricing"
+              className="text-sm hover:text-primary transition"
+            >
+              Pricing
+            </NavLink>
+          </div>
 
+          <div className="flex items-center gap-4 ml-4">
             {loading && (
               <span className="loading loading-spinner loading-sm text-primary"></span>
             )}
 
             {!loading &&
               (user ? (
-                // User dropdown menu for logged-in users (optional, can be moved inside drawer if preferred)
                 <div className="dropdown dropdown-end">
                   <div
                     tabIndex={0}
@@ -94,27 +199,77 @@ const Navbar = () => {
 
                   <ul
                     tabIndex={0}
-                    className="menu menu-sm dropdown-content bg-white rounded-box z-[1] mt-3 w-52 p-2 shadow-xl border border-gray-100"
+                    className="menu menu-sm dropdown-content bg-white rounded-box z-[1] mt-3 w-56 p-2 shadow-xl border border-gray-100"
                   >
+                    {/* Enhanced dashboard block */}
+                    <li className="px-2 py-2">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full overflow-hidden">
+                          <img
+                            src={
+                              user.photoURL ||
+                              "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                            }
+                            alt="avatar"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-sm truncate">
+                            {user.displayName || "User"}
+                          </div>
+                          <div className="text-xs text-slate-500 truncate">
+                            {user.email}
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+
+                    <li className="divider my-1" />
+
                     <li>
-                      <Link to="/dashboard">Dashboard</Link>
+                      <Link
+                        to="/dashboard/home"
+                        className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
+                      >
+                        <Home className="w-4 h-4 text-slate-600" /> Dashboard
+                        Home
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/profile">Profile</Link>
+                      <Link
+                        to="/dashboard/profile"
+                        className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
+                      >
+                        <UserIcon className="w-4 h-4 text-slate-600" /> Profile
+                        Settings
+                      </Link>
                     </li>
                     <li>
-                      <button onClick={handleLogout} className="text-error">
-                        Logout
+                      <Link
+                        to="/dashboard/analytics"
+                        className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
+                      >
+                        <BarChart className="w-4 h-4 text-slate-600" />{" "}
+                        Analytics
+                      </Link>
+                    </li>
+
+                    <li className="divider my-1" />
+
+                    <li>
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-2 text-error px-2 py-2 rounded hover:bg-slate-50 w-full"
+                      >
+                        <LogOut className="w-4 h-4" /> Logout
                       </button>
                     </li>
                   </ul>
                 </div>
               ) : (
-                // Login button is now also a link inside the dropdown or can be a separate button/icon if needed.
-                // Keeping this section minimal since navigation links are now in the drawer.
-                // For a consistent look, we remove the large desktop login button.
                 <label htmlFor={drawerId} className="btn btn-ghost btn-circle">
-                    <LogIn className="w-5 h-5" />
+                  <LogIn className="w-5 h-5" />
                 </label>
               ))}
           </div>
@@ -125,13 +280,13 @@ const Navbar = () => {
       <div className="drawer-side z-40">
         <label htmlFor={drawerId} className="drawer-overlay"></label>
 
-        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+        <aside className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
           {loading ? (
-            <li className="mb-6 p-2 bg-base-100 rounded-lg shadow-inner text-center">
+            <div className="mb-6 p-2 bg-base-100 rounded-lg shadow-inner text-center">
               Loading...
-            </li>
+            </div>
           ) : user ? (
-            <li className="mb-6 p-2 bg-base-100 rounded-lg shadow-inner">
+            <div className="mb-6 p-2 bg-base-100 rounded-lg shadow-inner">
               <div className="flex flex-col items-center p-4">
                 <div className="w-16 h-16 rounded-full overflow-hidden mb-2 ring ring-primary">
                   <img
@@ -150,26 +305,33 @@ const Navbar = () => {
                   {user.email || "Welcome"}
                 </p>
               </div>
-            </li>
+            </div>
           ) : (
-            <li className="mb-6 p-2 rounded-lg shadow-md">
-              <Link to="/login" className="btn btn-primary w-full">
-                <UserIcon className="h-5 w-5 mr-2" /> Login / Register
+            <div className="mb-6 p-2 rounded-lg shadow-md">
+              <Link
+                to="/login"
+                className="btn btn-primary w-full flex items-center justify-center gap-2"
+              >
+                <UserIcon className="h-5 w-5" /> Login / Register
               </Link>
-            </li>
+            </div>
           )}
 
-          {links}
+          {/* Links for the Drawer (with icons) */}
+          <div className="px-1">{links}</div>
 
           {user && (
-            <li className="mt-4 border-t pt-2">
-              <button onClick={handleLogout} className="text-error">
+            <div className="mt-4 border-t pt-2">
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 text-error px-2 py-2 rounded-md hover:bg-slate-100 w-full"
+              >
                 <LogOut className="h-5 w-5" />
                 Logout
               </button>
-            </li>
+            </div>
           )}
-        </ul>
+        </aside>
       </div>
     </div>
   );

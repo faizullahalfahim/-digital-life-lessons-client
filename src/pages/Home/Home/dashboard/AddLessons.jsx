@@ -1,10 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const image_API_URL = `https://api.imgbb.com/1/upload?key=${
   import.meta.env.VITE_image_host
 }`;
-
+ 
 const AddLessons = () => {
   const {
     register,
@@ -21,6 +22,7 @@ const AddLessons = () => {
       accessLevel: "free",
     },
   });
+  const axiosSecure = useAxiosSecure()
 
   const uploadImage = async (file) => {
     const formData = new FormData();
@@ -88,6 +90,10 @@ const AddLessons = () => {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
+    axiosSecure.post('/lessons', lessonData).then((res) => {
+      console.log("Lesson data successfully sent to backend:", res.data);
+    })
+    
 
     console.table("Final Lesson Data Ready for Backend:", lessonData);
 

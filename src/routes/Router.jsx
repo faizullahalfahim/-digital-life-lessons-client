@@ -11,6 +11,7 @@ import Login from "../pages/Auth/Login/Login";
 import PublicLessons from "../pages/Home/Home/PublicLessons";
 import Register from "../pages/Auth/Register/Register";
 import LessonDetails from "../pages/Home/Home/LessonDetails";
+import Profile from "../components/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ export const router = createBrowserRouter([
     path: "dashboard",
     Component: DashboardLayout,
     children: [
+      {
+        path: "profile",
+        Component: Profile
+      }
       
      
     ],
