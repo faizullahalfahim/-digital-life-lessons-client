@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import LessonCard from "./LessonCard";
 import { Loader2, AlertTriangle } from "lucide-react";
 import Loading from "../../../components/Loading";
+import ErrorPage from "../../../components/ErrorPage";
 
 const PublicLessons = () => {
   const axiosSecure = useAxiosSecure();
@@ -26,18 +27,7 @@ const PublicLessons = () => {
   
 
   if (error) {
-    return (
-      <div className="flex flex-col items-center p-10 bg-red-50 border border-red-200 rounded-lg max-w-lg mx-auto mt-10">
-        <AlertTriangle className="w-8 h-8 text-red-600 mb-3" />
-        <h3 className="text-lg font-semibold text-red-700">
-          Failed to Fetch Data
-        </h3>
-        <p className="text-sm text-gray-600 text-center">
-          There was an issue loading the lessons. Please check your API
-          connection. ({error.message})
-        </p>
-      </div>
-    );
+    return <ErrorPage> </ErrorPage>
   }
 
   return (
