@@ -3,6 +3,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LessonCard from "./LessonCard";
 import { Loader2, AlertTriangle } from "lucide-react";
+import Loading from "../../../components/Loading";
 
 const PublicLessons = () => {
   const axiosSecure = useAxiosSecure();
@@ -20,14 +21,9 @@ const PublicLessons = () => {
     },
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-[50vh] p-10">
-        <Loader2 className="w-8 h-8 animate-spin text-primary mr-2" />
-        <p className="text-xl text-gray-600">Loading lessons, please wait...</p>
-      </div>
-    );
-  }
+  if (isLoading) 
+    return <Loading> </Loading>
+  
 
   if (error) {
     return (
