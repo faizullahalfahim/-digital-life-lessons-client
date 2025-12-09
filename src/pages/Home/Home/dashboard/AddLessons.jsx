@@ -202,8 +202,11 @@ const AddLessons = () => {
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="Personal Growth">Personal Growth</option>
-              <option value="Finance">Finance</option>
-              <option value="Technology">Technology</option>
+              <option value="Career">Career</option>
+              <option value="RelationShips">RelationShips</option>
+              <option value="MindSet">MindSet</option>
+              <option value="Mistake Learned">Mistake Learned</option>
+              
             </select>
             {errors.category && (
               <p className="mt-1 text-sm text-red-500">
@@ -227,8 +230,10 @@ const AddLessons = () => {
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="Motivational">Motivational</option>
-              <option value="Informational">Informational</option>
-              <option value="Reflective">Reflective</option>
+              <option value="Sad">Sad</option>
+              <option value="Realization">Realization</option>
+              <option value="Gratitude">Gratitude</option>
+              
             </select>
             {errors.emotionalTone && (
               <p className="mt-1 text-sm text-red-500">

@@ -1,27 +1,39 @@
 
 import React from "react";
-import { useLocation, Link } from "react-router";
+import { useLocation, Link, useParams } from "react-router";
 import { Clock, Eye, BookOpen, User } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loading from "../../../components/Loading";
+import ErrorPage from "../../../components/ErrorPage";
 
+const axiosSecure = useAxiosSecure();
+const LessonDetails = () => {
+  const { id } = useParams(); 
+  const {
+    data: lesson = [],
+    isLoading,
+    error,
+    refetch
+  } = useQuery({
+    queryKey: ["public-lessons" , id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/lessons/${id}`);
 
-const LessonDetails = ({ lesson: propLesson }) => {
-  const location = useLocation();
-  const lesson = propLesson || location?.state?.lesson || null;
+      return res.data;
+    },
+  });
 
-  if (!lesson) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center px-4">
-        <div className="text-center">
-          <p className="text-lg font-medium mb-3">Lesson not found</p>
-          <Link to="/public-lessons" className="btn btn-sm">
-            Back to Lessons
-          </Link>
-        </div>
-      </div>
-    );
+  if (isLoading) 
+    return <Loading> </Loading>
+  
+
+  if (error) {
+    return <ErrorPage> </ErrorPage>
   }
 
- 
+  console.log(lesson);
+
   const {
     title,
     description,
