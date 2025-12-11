@@ -154,22 +154,7 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-6 ml-auto">
-            {/* desktop quick links (optional) */}
-            <NavLink to="/" className="text-sm hover:text-primary transition">
-              Home
-            </NavLink>
-            <NavLink
-              to="/public-lessons"
-              className="text-sm hover:text-primary transition"
-            >
-              Lessons
-            </NavLink>
-            <NavLink
-              to="/pricing"
-              className="text-sm hover:text-primary transition"
-            >
-              Pricing
-            </NavLink>
+            
           </div>
 
           <div className="flex items-center gap-4 ml-4">

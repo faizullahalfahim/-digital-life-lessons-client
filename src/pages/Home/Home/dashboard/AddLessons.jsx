@@ -1,12 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useAuth from "../../../../hooks/UseAuth";
 
 const image_API_URL = `https://api.imgbb.com/1/upload?key=${
   import.meta.env.VITE_image_host
 }`;
- 
+
 const AddLessons = () => {
+  const {user} = useAuth()
   const {
     register,
     handleSubmit,
@@ -81,7 +83,7 @@ const AddLessons = () => {
       visibility: data.visibility,
       accessLevel: data.accessLevel,
       imageURL: hostedImageUrl,
-      creator: "67a123456789abcd00000111",
+      creator: user.gmail,
       likes: [],
       likesCount: 0,
       favoritesCount: 0,

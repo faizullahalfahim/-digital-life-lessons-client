@@ -12,6 +12,9 @@ import PublicLessons from "../pages/Home/Home/PublicLessons";
 import Register from "../pages/Auth/Register/Register";
 import LessonDetails from "../pages/Home/Home/LessonDetails";
 import Profile from "../components/Profile";
+import UpgradeToPremium from "../components/UpgradeToPremium";
+import PaymentSuccess from "../pages/payment/PaymentSuccess";
+import PaymentCancelled from "../pages/payment/PaymentCancelled";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +47,10 @@ export const router = createBrowserRouter([
         path: "my-lessons",
         Component: MyLesson,
       },
+      {
+        path: 'upgrade',
+        Component: UpgradeToPremium
+      },
     ],         
   },
   {
@@ -68,6 +75,14 @@ export const router = createBrowserRouter([
       {
         path: "profile",
         Component: Profile
+      },
+      {
+        path: 'payment-success',
+        Component: PaymentSuccess
+      },
+      {
+        path: 'payment-cancelled',
+        Component: PaymentCancelled
       }
       
      
