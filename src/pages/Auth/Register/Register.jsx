@@ -7,6 +7,8 @@ import SocialLogin from "../SocialLogin/SocialLogin";
 import useAuth from "../../../hooks/UseAuth";
 import { UserPlus } from "lucide-react";
 import axios from "axios";
+import { saveOrUpdateUser } from "../../../utilites";
+import Swal from "sweetalert2"; 
 
 
 const Register = () => {
@@ -20,39 +22,60 @@ const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleRegistration = (data) => {
+  const handleRegistration = async (data) => {
     const profileImg = data.photo[0];
 
-    registerUser(data.email, data.password)
-      .then(() => {
-        // 1. store the image in form data
+    try {
+        
+        
+        await registerUser(data.email, data.password) 
+        
+        
         const formData = new FormData();
         formData.append("image", profileImg);
 
-        // 2. send the photo to store and get the ul
         const image_API_URL = `https://api.imgbb.com/1/upload?key=${
           import.meta.env.VITE_image_host
         }`;
 
-        axios.post(image_API_URL, formData).then((res) => {
-          const photoURL = res.data.data.url;
+        const imageRes = await axios.post(image_API_URL, formData);
+        const photoURL = imageRes.data.data.url;
 
-          const userProfile = {
+        
+        const userProfile = {
             displayName: data.name,
             photoURL: photoURL,
-          };
-
-          updateUserProfile(userProfile)
-            .then(() => {
-              console.log("user profile updated done.");
-              navigate(location.state || "/");
-            })
-            .catch((error) => console.log(error));
+        };
+        await updateUserProfile(userProfile);
+        
+      
+        await saveOrUpdateUser({
+            email: data.email,
+            displayName: data.name,
+            image: photoURL,
+        })
+        
+        
+        Swal.fire({
+            icon: "success",
+            title: "Registration Successful!",
+            text: "Welcome to Zap Shift!",
+            timer: 1500,
+            showConfirmButton: false,
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        
+        navigate(location.state || "/");
+
+    } catch (error) {
+        // 6. ব্যর্থতা বার্তা
+        console.error(error);
+        Swal.fire({
+            icon: "error",
+            title: "Registration Failed",
+            text: error.message || "An unknown error occurred during registration.",
+        });
+    }
+
   };
 
   return (
@@ -171,16 +194,6 @@ const Register = () => {
                       : "Password must have at least one uppercase, lowercase, number, and special character."}
                   </p>
                 )}
-              </div>
-
-              {/* Forgot password link */}
-              <div className="flex justify-end">
-                <a
-                  className="text-sm text-sky-600 hover:underline"
-                  href="/forgot-password"
-                >
-                  Forgot password?
-                </a>
               </div>
 
               {/* Register Button (Enhanced) */}

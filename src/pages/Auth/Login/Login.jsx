@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../../hooks/UseAuth";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import Swal from "sweetalert2";
+import { saveOrUpdateUser } from "../../../utilites";
 
 const Login = () => {
   const {
@@ -18,20 +20,39 @@ const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (data) => {
-    console.log("form data", data);
-    signInUser(data.email, data.password)
-      .then((result) => {
-        console.log(result.user);
-        navigate(location.state || "/");
-      })
-      .catch((error) => {
-        console.log(error);
+  const handleLogin = async (data) => {
+    try {
+     const {user} = await signInUser(data.email, data.password);
+
+
+      await saveOrUpdateUser({
+       email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
       });
+
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: "Welcome back to Digital Life Lessons!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.error("Login failed:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: error.message || "Invalid email or password",
+      });
+    }
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8 sm:py-12">
       <div className="w-full max-w-md">
         <div className="bg-white border border-gray-100 rounded-2xl shadow-lg overflow-hidden">
           {/* header */}
@@ -45,7 +66,6 @@ const Login = () => {
           {/* body */}
           <div className="p-6">
             {/* server error */}
-            
 
             <form
               onSubmit={handleSubmit(handleLogin)}
@@ -149,11 +169,8 @@ const Login = () => {
                 <button
                   type="submit"
                   className="w-full inline-flex items-center justify-center gap-2 rounded-md bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 font-semibold shadow-md disabled:opacity-60 disabled:cursor-not-allowed transition"
-                 
                 >
-                  
-                    <span>Login</span>
-               
+                  <span>Login</span>
                 </button>
               </div>
             </form>

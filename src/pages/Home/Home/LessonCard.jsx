@@ -13,6 +13,7 @@ import {
   Icon,
   PiIcon,
   XCircle,
+  Calendar,
 } from "lucide-react";
 import UpgradeToPremium from "../../../components/UpgradeToPremium";
 
@@ -33,7 +34,15 @@ const LessonCard = ({ lesson }) => {
   } = lesson;
 
   const navigate = useNavigate();
-  const [showUpgrade, setShowUpgrade] = useState(false);
+ 
+  const formatDate = (date) => {
+  if (!date) return "—";
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
 
   const readMinutes = description
     ? Math.max(1, Math.ceil(description.split(/\s+/).length / 180))
@@ -54,16 +63,13 @@ const LessonCard = ({ lesson }) => {
     }
   };
 
-  const handleSeeDetails = (e) => {
-    // if free, go to lesson detail page
-    if (accessLevel === "free") {
-      navigate(`/lessons/${_id}`);
-      return;
-    }
-
-    // otherwise open upgrade UI
-    setShowUpgrade(true);
-  };
+  const handleSeeDetails = () => {
+  if (accessLevel === "free") {
+    navigate(`/lessons/${_id}`);
+  } else {
+    navigate("/upgrade"); 
+  }
+};
 
   return (
     <>
@@ -139,26 +145,34 @@ const LessonCard = ({ lesson }) => {
           </p>
 
           {/* Meta info */}
-          <div className="mt-4 flex items-center justify-between border-t pt-3 text-sm text-gray-500">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1">
-                <Clock className="w-4 h-4 text-gray-400" />
-                {readMinutes} min read
-              </div>
-            </div>
+         {/* Meta info */}
+<div className="mt-4 border-t pt-3 space-y-2">
+  <div className="flex items-center justify-between text-sm text-gray-500">
+    <div className="flex items-center gap-3">
+      <span className="flex items-center gap-1">
+        <Clock className="w-4 h-4 text-gray-400" />
+        {readMinutes} min read
+      </span>
 
-            <div className="flex items-center gap-3 text-xs">
-              <span className="flex items-center gap-1">
-                <Heart className="w-4 h-4 text-red-500" /> {likesCount}
-              </span>
-              <span className="flex items-center gap-1">
-                <Bookmark className="w-4 h-4 text-yellow-600" /> {favoritesCount}
-              </span>
-              <span className="flex items-center gap-1">
-                <Eye className="w-4 h-4 text-blue-600" /> {views}
-              </span>
-            </div>
-          </div>
+      <span className="flex items-center gap-1">
+        <Calendar className="w-4 h-4 text-gray-400" />
+        {formatDate(createdAt)}
+      </span>
+    </div>
+
+    <div className="flex items-center gap-3 text-xs">
+      <span className="flex items-center gap-1">
+        <Heart className="w-4 h-4 text-red-500" /> {likesCount}
+      </span>
+      <span className="flex items-center gap-1">
+        <Bookmark className="w-4 h-4 text-yellow-600" /> {favoritesCount}
+      </span>
+      <span className="flex items-center gap-1">
+        <Eye className="w-4 h-4 text-blue-600" /> {views}
+      </span>
+    </div>
+  </div>
+</div>
 
           <div className="mt-4 flex justify-end">
             {/* Use a button with conditional behavior */}
@@ -187,32 +201,8 @@ const LessonCard = ({ lesson }) => {
         </div>
       </article>
 
-      {/* Conditionally render the UpgradeToPremium component as overlay/modal */}
-      {showUpgrade && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* backdrop */}
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setShowUpgrade(false)}
-          />
-          <div className="relative z-10 w-full max-w-xl">
-            <UpgradeToPremium
-               lesson={lesson}
-             
-            />
-            {/* simple close button */}
-            <div className="absolute top-3 right-3">
-              <button
-                onClick={() => setShowUpgrade(false)}
-                className="bg-white rounded-full p-1 shadow"
-                aria-label="Close upgrade"
-              >
-                <XCircle className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+     
+     
     </>
   );
 };

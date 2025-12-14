@@ -65,7 +65,7 @@ const Navbar = () => {
         <span>About Us</span>
       </NavLink>
 
-      {/* Dashboard dropdown (only if user) */}
+      {/* Dashboard dropdown (only if admin) */}
       {user && (
         <div className="mt-2">
           <div className="dropdown w-full">
@@ -76,7 +76,7 @@ const Navbar = () => {
             >
               <div className="flex items-center gap-3">
                 <Grid className="w-5 h-5 text-slate-600" />
-                <span className="font-medium">Dashboard</span>
+                <span className="font-medium"> Admin Dashboard</span>
               </div>
               <svg
                 className="w-4 h-4 text-slate-500"
@@ -102,7 +102,7 @@ const Navbar = () => {
                   to="/dashboard"
                   className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
                 >
-                  <Home className="w-4 h-4 text-slate-600" /> Home
+                  <Home className="w-4 h-4 text-slate-600" /> dghs
                 </Link>
               </li>
               <li>
@@ -210,37 +210,6 @@ const Navbar = () => {
                       </div>
                     </li>
 
-                    <li className="divider my-1" />
-
-                    <li>
-                      <Link
-                        to="/dashboard/home"
-                        className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
-                      >
-                        <Home className="w-4 h-4 text-slate-600" /> Dashboard
-                        Home
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/dashboard/profile"
-                        className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
-                      >
-                        <UserIcon className="w-4 h-4 text-slate-600" /> Profile
-                        Settings
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/dashboard/analytics"
-                        className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
-                      >
-                        <BarChart className="w-4 h-4 text-slate-600" />{" "}
-                        Analytics
-                      </Link>
-                    </li>
-
-                    <li className="divider my-1" />
 
                     <li>
                       <button

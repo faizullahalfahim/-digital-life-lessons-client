@@ -3,7 +3,7 @@ import RootLayout from "../Layouts/RootLayout";
 import Home from "../pages/Home/Home/Home";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import AddLessons from "../pages/Home/Home/dashboard/AddLessons";
-import MyLesson from "../pages/Home/Home/dashboard/MyLesson";
+
 import AboutUs from "../pages/Home/Home/AboutUs";
 import Services from "../pages/Home/Home/dashboard/Services";
 import AuthLayout from "../Layouts/AuthLayout";
@@ -15,6 +15,9 @@ import Profile from "../components/Profile";
 import UpgradeToPremium from "../components/UpgradeToPremium";
 import PaymentSuccess from "../pages/payment/PaymentSuccess";
 import PaymentCancelled from "../pages/payment/PaymentCancelled";
+import PrivateRoute from "./PrivateRoute";
+import MyLessons from "../pages/Home/Home/dashboard/MyLesson";
+
 
 export const router = createBrowserRouter([
   {
@@ -36,20 +39,22 @@ export const router = createBrowserRouter([
       },
       {
         path: 'lessons/:id',
-        element: <LessonDetails> </LessonDetails>
+        element: <PrivateRoute> <LessonDetails> </LessonDetails> </PrivateRoute> 
       },
       {
         
         path: "add-lesson",
-        Component: AddLessons,
+         element: <PrivateRoute> <AddLessons> </AddLessons> </PrivateRoute> 
+       
       
       }, {
         path: "my-lessons",
-        Component: MyLesson,
+         element: <PrivateRoute> <MyLessons> </MyLessons> </PrivateRoute> 
+      
       },
       {
         path: 'upgrade',
-        Component: UpgradeToPremium
+        element: <PrivateRoute> <UpgradeToPremium> </UpgradeToPremium></PrivateRoute>
       },
     ],         
   },
