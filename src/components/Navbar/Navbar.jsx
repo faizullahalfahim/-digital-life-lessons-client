@@ -12,13 +12,18 @@ import {
   BarChart,
   Settings,
   Grid,
+  LayoutDashboard,
+  Users,
+  Flag,
 } from "lucide-react";
 import Logo from "../Logo/Logo";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink } from "react-router"; 
 import useAuth from "../../hooks/UseAuth";
+import useRole from "../../hooks/useRole";
 
 const Navbar = () => {
   const { user, logOut, loading } = useAuth();
+  const {role, isRoleLoading} = useRole()
 
   const drawerId = "main-drawer";
 
@@ -66,74 +71,75 @@ const Navbar = () => {
       </NavLink>
 
       {/* Dashboard dropdown (only if admin) */}
-      {user && (
-        <div className="mt-2">
-          <div className="dropdown w-full">
-            <div
-              tabIndex={0}
-              role="button"
-              className="flex items-center justify-between gap-3 px-2 py-2 rounded-md hover:bg-slate-100 cursor-pointer"
-            >
-              <div className="flex items-center gap-3">
-                <Grid className="w-5 h-5 text-slate-600" />
-                <span className="font-medium"> Admin Dashboard</span>
-              </div>
-              <svg
-                className="w-4 h-4 text-slate-500"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M6 9l6 6 6-6"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 mt-2 z-40"
-            >
-              <li>
-                <Link
-                  to="/dashboard"
-                  className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
-                >
-                  <Home className="w-4 h-4 text-slate-600" /> dghs
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/dashboard/profile"
-                  className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
-                >
-                  <UserIcon className="w-4 h-4 text-slate-600" /> Profile
-                  Settings
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/dashboard/analytics"
-                  className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
-                >
-                  <BarChart className="w-4 h-4 text-slate-600" /> Analytics
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/dashboard/settings"
-                  className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50"
-                >
-                  <Settings className="w-4 h-4 text-slate-600" /> Settings
-                </Link>
-              </li>
-            </ul>
-          </div>
+      {user && role === "admin" && (
+  <div className="mt-2">
+    <div className="dropdown w-full">
+      <div
+        tabIndex={0}
+        role="button"
+        className="flex items-center justify-between gap-3 px-2 py-2 rounded-md hover:bg-slate-100 cursor-pointer"
+      >
+        <div className="flex items-center gap-3">
+          <Grid className="w-5 h-5 text-slate-600" />
+          <span className="font-medium">Admin Dashboard</span>
         </div>
-      )}
+        <svg
+          className="w-4 h-4 text-slate-500"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <path
+            d="M6 9l6 6 6-6"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+
+      <ul
+        tabIndex={0}
+        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 mt-2 z-40"
+      >
+        <li>
+          <Link to="/dashboard" className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50">
+            <LayoutDashboard className="w-4 h-4 text-slate-600" />
+            OverView
+          </Link>
+        </li>
+
+        <li>
+          <Link to="manage-users" className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50">
+            <Users className="w-4 h-4 text-slate-600" />
+            Manage Users
+          </Link>
+        </li>
+
+        <li>
+          <Link to="manage-lessons" className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50">
+            <BookOpen className="w-4 h-4 text-slate-600" />
+            Manage Lessons
+          </Link>
+        </li>
+
+        <li>
+          <Link to="reported-lessons" className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50">
+            <Flag className="w-4 h-4 text-slate-600" />
+            Manage Reported
+          </Link>
+        </li>
+
+        <li>
+          <Link to="admin-profile" className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50">
+            <Settings className="w-4 h-4 text-slate-600" />
+            Admin Profile
+          </Link>
+        </li>
+      </ul>
+    </div>
+  </div>
+)}
     </div>
   );
 
@@ -179,6 +185,7 @@ const Navbar = () => {
                         }
                         className="w-full h-full object-cover"
                       />
+                      
                     </div>
                   </div>
 
@@ -258,6 +265,18 @@ const Navbar = () => {
                 <p className="text-sm text-gray-500">
                   {user.email || "Welcome"}
                 </p>
+                
+                
+                <Link 
+                  to="/dashboard/profile"
+                 
+                  className="mt-3 btn btn-sm btn-outline btn-primary w-full max-w-[150px] transition duration-200"
+                >
+                  <UserIcon className="w-4 h-4" />
+                  Profile
+                </Link>
+           
+
               </div>
             </div>
           ) : (

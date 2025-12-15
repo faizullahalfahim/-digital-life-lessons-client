@@ -17,6 +17,12 @@ import PaymentSuccess from "../pages/payment/PaymentSuccess";
 import PaymentCancelled from "../pages/payment/PaymentCancelled";
 import PrivateRoute from "./PrivateRoute";
 import MyLessons from "../pages/Home/Home/dashboard/MyLesson";
+import ManageUsers from "../pages/Home/Home/dashboard/ManageUsers";
+import ManageLessons from "../pages/Home/Home/dashboard/ManageLessons";
+import ReportedLessons from "../pages/Home/Home/dashboard/ReportedLessons";
+import AdminProfile from "../pages/Home/Home/dashboard/AdminProfile";
+
+
 
 
 export const router = createBrowserRouter([
@@ -88,7 +94,23 @@ export const router = createBrowserRouter([
       {
         path: 'payment-cancelled',
         Component: PaymentCancelled
-      }
+      },
+      {
+        path: 'manage-users',
+        Component: ManageUsers
+      },
+      {
+        path: 'manage-lessons',
+        Component: ManageLessons
+      },
+      {
+        path: 'reported-lessons',
+        Component: ReportedLessons
+      },
+      {
+        path: 'admin-profile',
+        Component: AdminProfile
+      },
       
      
     ],

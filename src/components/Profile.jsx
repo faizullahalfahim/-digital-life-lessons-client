@@ -11,10 +11,13 @@ import {
     CheckCircle,
     XCircle
 } from 'lucide-react';
+import useRole from '../hooks/useRole';
 
 const Profile = () => {
 
     const { user } = useAuth();
+    const {role, roleLoading} = useRole()
+    console.log(role, roleLoading)
 
     const userData = {
         displayName: user?.displayName || "User Name",
@@ -22,7 +25,7 @@ const Profile = () => {
         photoURL:
             user?.photoURL ||
             "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp",
-        role: "Student / Instructor",
+      
         joined: "January 2024",
         phone: "+880 1XXXXXXXXX",
         bio: "I am a passionate learner and I love working with modern technologies.",
@@ -36,12 +39,7 @@ const Profile = () => {
         bio: userData.bio,
     });
 
-    const handleEditChange = (e) => {
-        setEditData({
-            ...editData,
-            [e.target.name]: e.target.value,
-        });
-    };
+   
 
     const handleSave = (e) => {
         e.preventDefault();
@@ -118,15 +116,7 @@ const Profile = () => {
                         Name
                     </span>
                 </label>
-                <input
-                    type="text"
-                    name="displayName"
-                    value={editData.displayName}
-                    onChange={handleEditChange}
-                    className="input input-bordered w-full"
-                    placeholder="Enter your name"
-                    required
-                />
+               
             </div>
 
             <div className="form-control mb-4">
@@ -136,27 +126,14 @@ const Profile = () => {
                         Phone Number
                     </span>
                 </label>
-                <input
-                    type="text"
-                    name="phone"
-                    value={editData.phone}
-                    onChange={handleEditChange}
-                    className="input input-bordered w-full"
-                    placeholder="Enter phone number"
-                />
+                
             </div>
 
             <div className="form-control mb-6">
                 <label className="label">
                     <span className="label-text">Bio</span>
                 </label>
-                <textarea
-                    name="bio"
-                    value={editData.bio}
-                    onChange={handleEditChange}
-                    className="textarea textarea-bordered h-24 w-full"
-                    placeholder="Write something about yourself..."
-                ></textarea>
+               
             </div>
 
             <div className="flex gap-4">
@@ -213,7 +190,7 @@ const Profile = () => {
                         <h2 className="text-xl font-bold text-gray-800">
                             {userData.displayName}
                         </h2>
-                        <p className="text-sm text-gray-500 mb-3">{userData.role}</p>
+                       <p className=" text-sm text-gray-500 mb-3">{role}</p>
                         <div className="badge badge-outline text-xs">
                             Joined {userData.joined}
                         </div>

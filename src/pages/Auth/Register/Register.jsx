@@ -67,7 +67,7 @@ const Register = () => {
         navigate(location.state || "/");
 
     } catch (error) {
-        // 6. ব্যর্থতা বার্তা
+      
         console.error(error);
         Swal.fire({
             icon: "error",
@@ -79,7 +79,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
+   <div className="min-h-screen flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-md">
         <div className="bg-white border border-gray-100 rounded-2xl shadow-xl overflow-hidden">
           {/* Header: Gradient Background */}

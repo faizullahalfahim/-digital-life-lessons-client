@@ -9,43 +9,49 @@ import {
   Heart,
   BarChart,
   PlusCircle,
-  FileText, 
+  FileText,
+  Users,
+  Flag, 
 } from "lucide-react";
 import Navbar from "../components/Navbar/Navbar";
-
-
-const sidebarNavItems = [
-  { name: "Overview", href: "/dashboard", Icon: BarChart }, 
-  { name: "My Courses", href: "/dashboard/courses", Icon: BookOpen },
-  { name: "My Profile", href: "/dashboard/profile", Icon: User },
-  { name: "Wishlist", href: "/dashboard/wishlist", Icon: Heart },
-  { name: "Settings", href: "/dashboard/settings", Icon: Settings },
-  { name: "Add Lesson", href: "/add-lesson", Icon: PlusCircle },
-  { name: "My Lessons", href: "/my-lessons", Icon: FileText },
-];
-
+import useAuth from "../hooks/UseAuth";
 const statsData = [
   {
-    title: "total lesson",
-    value: "35",
+    id: 1,
+    title: "Total Users",
+    value: 1240,
+    icon: Users,
+    color: "text-sky-600",
+    bg: "bg-sky-50",
+  },
+  {
+    id: 2,
+    title: "Public Lessons",
+    value: 320,
     icon: BookOpen,
-    color: "bg-blue-100 text-blue-600",
+    color: "text-indigo-600",
+    bg: "bg-indigo-50",
   },
   {
-    title: "Progress",
-    value: "75%",
-    icon: TrendingUp,
-    color: "bg-green-100 text-green-600",
+    id: 3,
+    title: "Reported Lessons",
+    value: 14,
+    icon: Flag,
+    color: "text-red-600",
+    bg: "bg-red-50",
   },
   {
-    title: "Time spend",
-    value: "10 hours",
-    icon: Clock,
-    color: "bg-amber-100 text-amber-600",
+    id: 4,
+    title: "Today’s New Lessons",
+    value: 7,
+    icon: PlusCircle,
+    color: "text-emerald-600",
+    bg: "bg-emerald-50",
   },
 ];
 
 const DashboardLayout = () => {
+    const {user} = useAuth()
   const location = useLocation();
   const userName = "John Doe"; 
 
@@ -83,24 +89,7 @@ const DashboardLayout = () => {
 
             <nav className="flex-grow p-4">
               <ul className="space-y-2">
-                {sidebarNavItems.map((item, index) => (
-                  <li key={index}>
-                  
-                    <NavLink
-                      to={item.href}
-                     
-                      className={({ isActive }) => 
-                        `flex items-center gap-3 p-3 rounded-lg transition duration-200 
-                         ${getNavLinkClass(item.href)}
-                        `
-                      }
-                      end={item.href === "/dashboard"} 
-                    >
-                      <item.Icon className="h-5 w-5" />
-                      <span className="font-medium">{item.name}</span>
-                    </NavLink>
-                  </li>
-                ))}
+                
               </ul>
             </nav>
           </div>
