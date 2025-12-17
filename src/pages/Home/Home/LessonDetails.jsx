@@ -7,8 +7,9 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../../components/Loading";
 import ErrorPage from "../../../components/ErrorPage";
 
-const axiosSecure = useAxiosSecure();
+
 const LessonDetails = () => {
+  const axiosSecure = useAxiosSecure();
   const { id } = useParams(); 
   const {
     data: lesson = [],

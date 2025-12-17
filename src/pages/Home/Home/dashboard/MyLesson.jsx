@@ -16,8 +16,9 @@ import {
   Unlock,
   X,
 } from "lucide-react";
-import useAuth from "../../../../hooks/UseAuth";
+
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useAuth from "../../../../hooks/useAuth";
 
 const MyLessons = () => {
   const { user } = useAuth();
@@ -26,7 +27,7 @@ const MyLessons = () => {
   const { data: lessons = [], refetch } = useQuery({
     queryKey: ["my-lessons", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/my-lessons/${user.email}`);
+      const res = await axiosSecure.get(`/my-lessons`);
       return res.data;
     },
   });
