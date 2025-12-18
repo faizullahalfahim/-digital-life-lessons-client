@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useAuth from '../hooks/UseAuth';
+
 import {
     Camera,
     Edit3,
@@ -12,6 +12,7 @@ import {
     XCircle
 } from 'lucide-react';
 import useRole from '../hooks/useRole';
+import useAuth from '../hooks/useAuth';
 
 const Profile = () => {
 

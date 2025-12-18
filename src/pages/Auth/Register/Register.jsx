@@ -59,7 +59,7 @@ const Register = () => {
         Swal.fire({
             icon: "success",
             title: "Registration Successful!",
-            text: "Welcome to Zap Shift!",
+            text: "Welcome to Digital Life",
             timer: 1500,
             showConfirmButton: false,
         });
