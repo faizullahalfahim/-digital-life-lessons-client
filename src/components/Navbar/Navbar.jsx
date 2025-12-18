@@ -111,7 +111,7 @@ const Navbar = () => {
         </li>
 
         <li>
-          <Link to="manage-users" className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50">
+          <Link to="dashboard/manage-users" className="flex items-center gap-2 px-2 py-2 rounded hover:bg-slate-50">
             <Users className="w-4 h-4 text-slate-600" />
             Manage Users
           </Link>
