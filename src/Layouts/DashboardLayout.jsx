@@ -14,7 +14,8 @@ import {
   Flag, 
 } from "lucide-react";
 import Navbar from "../components/Navbar/Navbar";
-import useAuth from "../hooks/UseAuth";
+import useAuth from "../hooks/useAuth";
+
 const statsData = [
   {
     id: 1,
@@ -53,7 +54,10 @@ const statsData = [
 const DashboardLayout = () => {
     const {user} = useAuth()
   const location = useLocation();
-  const userName = "John Doe"; 
+  const userData = {
+        displayName: user?.displayName || "User Name",
+       
+    };
 
   const isDashboardHome =
     location.pathname === "/dashboard" || location.pathname === "/dashboard/";
@@ -84,7 +88,7 @@ const DashboardLayout = () => {
           <div className="hidden lg:flex flex-col w-64 bg-white border-r border-gray-200 shadow-xl sticky top-16 h-[calc(100vh-64px)] overflow-y-auto">
             <div className="p-4 mt-2">
               <h2 className="text-xl font-bold text-gray-800">Dashboard</h2>
-              <p className="text-sm text-gray-500">{userName}</p>
+              <p className="text-sm text-gray-500">{userData.displayName}</p>
             </div>
 
             <nav className="flex-grow p-4">
@@ -100,7 +104,7 @@ const DashboardLayout = () => {
               <>
                 <header className="mb-8">
                   <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
-                     Welcome {userName}!
+                     Welcome {userData.displayName}!
                   </h1>
                   <p className="text-gray-600">
                   

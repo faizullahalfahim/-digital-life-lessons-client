@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Loading from "../../../components/Loading";
 import ErrorPage from "../../../components/ErrorPage";
+import AddComment from "./AddComment";
+import ShowComment from "./ShowComment";
 
 
 const LessonDetails = () => {
@@ -15,7 +17,7 @@ const LessonDetails = () => {
     data: lesson = [],
     isLoading,
     error,
-    refetch
+    
   } = useQuery({
     queryKey: ["public-lessons" , id],
     queryFn: async () => {
@@ -142,6 +144,8 @@ const LessonDetails = () => {
           </div>
         </div>
       </div>
+      <ShowComment lessonId={lesson?._id}> </ShowComment>
+      <AddComment lesson={lesson}> </AddComment>
     </div>
   );
 };
