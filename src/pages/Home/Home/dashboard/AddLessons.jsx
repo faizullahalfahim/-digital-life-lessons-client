@@ -68,7 +68,7 @@ const AddLessons = () => {
         visibility: data.visibility,
         accessLevel: data.accessLevel,
         imageURL: hostedImageUrl,
-        creator: user.displayName,
+        creator: user.email,
         likes: [],
         likesCount: 0,
         favoritesCount: 0,

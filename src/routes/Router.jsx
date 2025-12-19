@@ -24,6 +24,7 @@ import AdminProfile from "../pages/Home/Home/dashboard/AdminProfile";
 
 import MyFavorites from "../pages/Home/Home/dashboard/MyFavorites";
 import NotFound from "../components/NotFound";
+import UpdateLesson from "../pages/Home/Home/dashboard/UpdateLesson";
 
 
 
@@ -119,6 +120,10 @@ export const router = createBrowserRouter([
       {
         path: 'admin-profile',
         element: <PrivateRoute> <AdminProfile> </AdminProfile></PrivateRoute>
+      },
+      {
+        path: 'update-lesson/:id',
+        element: <PrivateRoute> <UpdateLesson> </UpdateLesson></PrivateRoute>
       }
       
      
