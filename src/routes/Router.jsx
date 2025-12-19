@@ -23,6 +23,7 @@ import ReportedLessons from "../pages/Home/Home/dashboard/ReportedLessons";
 import AdminProfile from "../pages/Home/Home/dashboard/AdminProfile";
 
 import MyFavorites from "../pages/Home/Home/dashboard/MyFavorites";
+import NotFound from "../components/NotFound";
 
 
 
@@ -57,7 +58,7 @@ export const router = createBrowserRouter([
       
       }, {
         path: "my-lessons",
-         element: <MyLessons> </MyLessons> 
+         element: <PrivateRoute> <MyLessons> </MyLessons>  </PrivateRoute> 
       
       },
       {
@@ -91,7 +92,7 @@ export const router = createBrowserRouter([
     Component: DashboardLayout,
     children: [
       {
-        path: "profile",
+        index: true,
         Component: Profile
       },
       {
@@ -104,22 +105,27 @@ export const router = createBrowserRouter([
       },
       {
         path: 'manage-users',
-        Component: ManageUsers
+       element: <PrivateRoute> <ManageUsers> </ManageUsers></PrivateRoute>
       },
       {
         path: 'manage-lessons',
-        Component: ManageLessons
+        element: <PrivateRoute> <ManageLessons> </ManageLessons></PrivateRoute>
       },
       {
         path: 'reported-lessons',
-        Component: ReportedLessons
+         element: <PrivateRoute> <ReportedLessons> </ReportedLessons></PrivateRoute>
+        
       },
       {
         path: 'admin-profile',
-        Component: AdminProfile
+        element: <PrivateRoute> <AdminProfile> </AdminProfile></PrivateRoute>
       }
       
      
     ],
   },
+  {
+    path: "*",
+    element: <NotFound> </NotFound>
+  }
 ]);

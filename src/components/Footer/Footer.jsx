@@ -1,5 +1,5 @@
 import React from "react";
-import { Twitter, Facebook, Linkedin, Github } from "lucide-react";
+import { Facebook, Linkedin, Github, X } from "lucide-react";
 import { Link } from "react-router";
 import Logo from "../Logo/Logo";
 
@@ -12,7 +12,7 @@ const Footer = () => {
       links: [
         { name: "Home", path: "/" },
         { name: "Lessons", path: "/lessons" },
-        { name: "Services", path: "/services" },
+        { name: "My Favorites", path: "/dashboard/my-favorites" },
         { name: "Dashboard", path: "/dashboard" },
       ],
     },
@@ -22,7 +22,6 @@ const Footer = () => {
         { name: "Contact Us", path: "/contact" },
         { name: "FAQ", path: "/faq" },
         { name: "Help Center", path: "/help" },
-        { name: "Sitemap", path: "/sitemap" },
       ],
     },
     {
@@ -30,50 +29,52 @@ const Footer = () => {
       links: [
         { name: "Privacy Policy", path: "/privacy" },
         { name: "Terms of Service", path: "/terms" },
-        { name: "Cookie Policy", path: "/cookies" },
       ],
     },
   ];
 
   const socialIcons = [
-    { icon: Facebook, href: "https://facebook.com", title: "Facebook" },
-    { icon: Twitter, href: "https://twitter.com", title: "Twitter" },
-    { icon: Linkedin, href: "https://linkedin.com", title: "LinkedIn" },
-    { icon: Github, href: "https://github.com", title: "GitHub" },
+    { icon: Facebook, href: "https://facebook.com", title: "Facebook", hover: "hover:text-blue-600" },
+    { icon: X, href: "https://x.com", title: "X (Twitter)", hover: "hover:text-slate-200" }, // X লোগো
+    { icon: Linkedin, href: "https://linkedin.com", title: "LinkedIn", hover: "hover:text-blue-500" },
+    { icon: Github, href: "https://github.com", title: "GitHub", hover: "hover:text-white" },
   ];
 
   return (
-    <footer className="bg-gray-900 text-gray-300 border-t border-gray-800">
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 border-b border-gray-700 pb-8 mb-8">
-          <div className="col-span-2 md:col-span-2 space-y-4">
+    <footer className="bg-slate-950 text-slate-300 border-t border-slate-900">
+      <div className="max-w-7xl mx-auto py-16 px-6 sm:px-8 lg:px-10">
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-12 border-b border-slate-800 pb-12 mb-8">
+          
+          {/* Brand Section */}
+          <div className="col-span-1 md:col-span-2 space-y-6">
             <Link to="/" className="inline-block">
-              <div className="text-2xl font-bold text-white"><Logo> </Logo></div>
+              <Logo />
             </Link>
-            <p className="text-sm text-gray-400 max-w-sm">
-              Learn, build, and grow your skills with our curated courses and
-              resources.
+            <p className="text-sm text-slate-400 leading-relaxed max-w-xs">
+              Empowering individuals through shared wisdom and life-changing lessons. 
+              Join our community to grow, learn, and excel.
             </p>
 
-            <div className="flex space-x-4 pt-2">
+            <div className="flex space-x-5 pt-2">
               {socialIcons.map((item, index) => (
                 <a
                   key={index}
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-blue-500 transition duration-300"
+                  className={`text-slate-500 transition-all duration-300 transform hover:-translate-y-1 ${item.hover}`}
                   title={item.title}
                 >
-                  <item.icon className="h-6 w-6" />
+                  <item.icon className="h-5 w-5" />
                 </a>
               ))}
             </div>
           </div>
 
+          {/* Links Sections */}
           {footerLinks.map((section, index) => (
-            <div key={index} className="space-y-4">
-              <h3 className="text-lg font-semibold text-white uppercase tracking-wider border-b-2 border-blue-500 inline-block pb-1">
+            <div key={index} className="space-y-5 col-span-1">
+              <h3 className="text-sm font-bold text-white uppercase tracking-widest">
                 {section.title}
               </h3>
               <ul className="space-y-3">
@@ -81,7 +82,7 @@ const Footer = () => {
                   <li key={linkIndex}>
                     <Link
                       to={link.path}
-                      className="text-sm text-gray-400 hover:text-white transition duration-200"
+                      className="text-sm text-slate-500 hover:text-primary transition-colors duration-200"
                     >
                       {link.name}
                     </Link>
@@ -92,10 +93,15 @@ const Footer = () => {
           ))}
         </div>
 
-        <div className="pt-6 text-center">
-          <p className="text-sm text-gray-500">
-            &copy; {year} ProjectName. All rights reserved.
+        {/* Bottom Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-4">
+          <p className="text-xs text-slate-600">
+            &copy; {year} <span className="text-slate-400 font-medium">Digital Life Lessons</span>. All rights reserved.
           </p>
+          <div className="flex gap-6 text-xs text-slate-600">
+            <Link to="/cookies" className="hover:text-slate-400">Cookie Policy</Link>
+            <Link to="/sitemap" className="hover:text-slate-400">Sitemap</Link>
+          </div>
         </div>
       </div>
     </footer>
