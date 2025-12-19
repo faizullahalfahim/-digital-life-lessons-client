@@ -21,7 +21,8 @@ import ManageUsers from "../pages/Home/Home/dashboard/ManageUsers";
 import ManageLessons from "../pages/Home/Home/dashboard/ManageLessons";
 import ReportedLessons from "../pages/Home/Home/dashboard/ReportedLessons";
 import AdminProfile from "../pages/Home/Home/dashboard/AdminProfile";
-import Favorites from "../pages/Home/Home/dashboard/Favorites";
+
+import MyFavorites from "../pages/Home/Home/dashboard/MyFavorites";
 
 
 
@@ -66,7 +67,7 @@ export const router = createBrowserRouter([
       
       {
         path: 'favorites',
-        Component: Favorites
+        element: <PrivateRoute> <MyFavorites> </MyFavorites></PrivateRoute>
       }
     ],         
   },
@@ -79,7 +80,7 @@ export const router = createBrowserRouter([
             Component: Login
         },
         {
-          path: 'register',
+          path: 'register',     
           Component: Register
         }
     ]
