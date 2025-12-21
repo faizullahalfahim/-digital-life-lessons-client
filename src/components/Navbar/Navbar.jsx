@@ -124,11 +124,7 @@ const Navbar = () => {
                     <Flag className="w-4 h-4" /> Manage Reported
                   </Link>
                 </li>
-                <li>
-                  <Link to="/dashboard/admin-profile" className="py-2">
-                    <Settings className="w-4 h-4" /> Admin Profile
-                  </Link>
-                </li>
+                
               </ul>
             </div>
           </div>

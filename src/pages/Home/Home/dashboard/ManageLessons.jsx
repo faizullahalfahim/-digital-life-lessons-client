@@ -34,7 +34,8 @@ const ManageLessons = () => {
     queryKey: ["all-lessons-admin"],
     queryFn: async () => {
       const res = await axiosSecure.get("/lessons");
-      return res.data;
+      console.log(res.data)
+      return res.data.lessons;
     },
   });
 

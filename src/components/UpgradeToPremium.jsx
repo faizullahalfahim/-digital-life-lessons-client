@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Crown, Lock, X, CheckCircle, Loader2 as Spinner } from "lucide-react";
-import useAuth from "../hooks/UseAuth";
-import useAxiosSecure from "../hooks/useAxiosSecure";
 
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import useAuth from "../hooks/useAuth";
 
 const UpgradeToPremium = ({ lesson, lifetimePrice = 1500, onClose }) => {
   const [open, setOpen] = useState(false);
@@ -15,7 +15,6 @@ const UpgradeToPremium = ({ lesson, lifetimePrice = 1500, onClose }) => {
 
   const { _id, title } = lesson || {};
 
-  
   useEffect(() => {
     if (!open) return;
     const prev = document.activeElement;
@@ -40,27 +39,29 @@ const UpgradeToPremium = ({ lesson, lifetimePrice = 1500, onClose }) => {
     if (typeof onClose === "function") onClose();
   };
 
-  
-
   const handlePayment = async () => {
     setProcessing(true);
-    const paymentInfo ={
-      lessonId: _id,
-      lessonTitle: title,
+    const paymentInfo = {
+      planName: "Lifetime Premium Access",
       cost: lifetimePrice,
       customer: {
         name: user?.displayName || "Guest User",
-        email: user?.email 
-      }
-      
-    }
-    
-      const {data} = await axiosSecure.post(`/payment-checkout-session` , paymentInfo);
+        email: user?.email,
+      },
+    };
+
+    try {
+      const { data } = await axiosSecure.post(
+        `/payment-checkout-session`,
+        paymentInfo
+      );
       window.location.href = data.url;
-      console.log(data.url);
-    
+    } catch (error) {
+      console.error("Payment initiation failed", error);
+      setProcessing(false);
+    }
   };
-     
+
   return (
     <div className="rounded-xl border bg-white shadow-sm p-6 max-w-xl mx-auto">
       <div className="flex gap-4 items-start">
@@ -70,27 +71,35 @@ const UpgradeToPremium = ({ lesson, lifetimePrice = 1500, onClose }) => {
 
         <div className="flex-1">
           <h3 className="text-lg font-semibold text-slate-900">
-            Unlock full access to{" "}
-            <span className="text-indigo-600">“{title}”</span>
+            Unlock full access to lifetime
           </h3>
           <p className="text-sm text-slate-500 mt-1">
-            Upgrade to Premium for ad-free reading, bookmarking, and exclusive content.
+            Upgrade to Premium for ad-free reading, bookmarking, and exclusive
+            content.
           </p>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div className="flex items-start gap-3 p-3 rounded-lg border bg-slate-50">
               <Lock className="w-5 h-5 text-slate-600 mt-1" />
               <div>
-                <div className="text-sm font-medium text-slate-800">Full content</div>
-                <div className="text-xs text-slate-500">Read without restrictions</div>
+                <div className="text-sm font-medium text-slate-800">
+                  Full content
+                </div>
+                <div className="text-xs text-slate-500">
+                  Read without restrictions
+                </div>
               </div>
             </div>
 
             <div className="flex items-start gap-3 p-3 rounded-lg border bg-slate-50">
               <CheckCircle className="w-5 h-5 text-green-500 mt-1" />
               <div>
-                <div className="text-sm font-medium text-slate-800">Premium features</div>
-                <div className="text-xs text-slate-500">Save, highlight & personalized picks</div>
+                <div className="text-sm font-medium text-slate-800">
+                  Premium features
+                </div>
+                <div className="text-xs text-slate-500">
+                  Save, highlight & personalized picks
+                </div>
               </div>
             </div>
           </div>
@@ -103,20 +112,22 @@ const UpgradeToPremium = ({ lesson, lifetimePrice = 1500, onClose }) => {
               <Crown className="w-4 h-4" /> Upgrade to Premium
             </button>
 
-            
-
             <div className="ml-auto text-xs text-slate-500">
-             
-                <span>Signed in as <span className="font-medium text-slate-700">{user?.email}</span></span>
-              
+              <span>
+                Signed in as{" "}
+                <span className="font-medium text-slate-700">
+                  {user?.email}
+                </span>
+              </span>
             </div>
           </div>
 
-          <div className="mt-3 text-xs text-slate-400">Secure checkout • Refund policy applies</div>
+          <div className="mt-3 text-xs text-slate-400">
+            Secure checkout • Refund policy applies
+          </div>
         </div>
       </div>
 
-      
       {open && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
           <div
@@ -139,10 +150,15 @@ const UpgradeToPremium = ({ lesson, lifetimePrice = 1500, onClose }) => {
                   <Crown className="w-5 h-5 text-yellow-600" />
                 </div>
                 <div>
-                  <h4 id="upgrade-title" className="text-lg font-semibold text-slate-900">
+                  <h4
+                    id="upgrade-title"
+                    className="text-lg font-semibold text-slate-900"
+                  >
                     Lifetime Premium Access
                   </h4>
-                  <p className="text-xs text-slate-500">One-time payment — unlimited access</p>
+                  <p className="text-xs text-slate-500">
+                    One-time payment — unlimited access
+                  </p>
                 </div>
               </div>
 
@@ -160,34 +176,106 @@ const UpgradeToPremium = ({ lesson, lifetimePrice = 1500, onClose }) => {
               <div className="text-center">
                 <div className="inline-flex items-baseline gap-3 px-4 py-2 bg-indigo-50 rounded-lg border border-indigo-100">
                   <span className="text-sm text-indigo-500">One-time</span>
-                  <div className="text-2xl font-extrabold text-indigo-700">BDT {Number(lifetimePrice).toLocaleString()}</div>
+                  <div className="text-2xl font-extrabold text-indigo-700">
+                    BDT {Number(lifetimePrice).toLocaleString()}
+                  </div>
                 </div>
 
-                <p className="mt-3 text-sm text-slate-600">Unlock every premium lesson, priority support, and exclusive perks.</p>
+                <p className="mt-3 text-sm text-slate-600">
+                  Unlock every premium lesson, priority support, and exclusive
+                  perks.
+                </p>
               </div>
 
-              <ul className="mt-5 space-y-3 text-sm text-left">
-                <li className="flex items-start gap-3"><CheckCircle className="w-5 h-5 text-green-500 mt-1" /> Unlimited access to all premium lessons</li>
-                <li className="flex items-start gap-3"><CheckCircle className="w-5 h-5 text-green-500 mt-1" /> Save, highlight & organize</li>
-                <li className="flex items-start gap-3"><CheckCircle className="w-5 h-5 text-green-500 mt-1" /> Priority support</li>
-              </ul>
+              <div className="mt-5 overflow-hidden border rounded-lg">
+                <table className="w-full text-sm text-left">
+                  <thead className="bg-slate-50">
+                    <tr>
+                      <th className="p-2 border-b">Feature</th>
+                      <th className="p-2 border-b text-center text-indigo-600">
+                        Premium
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td className="p-2 border-b">Unlimited Lessons</td>
+                      <td className="p-2 border-b text-center">✅</td>
+                    </tr>
+
+                    <tr>
+                      <td className="p-2 border-b">Create Premium Lessons</td>
+                      <td className="p-2 border-b text-center">✅</td>
+                    </tr>
+
+                    <tr>
+                      <td className="p-2 border-b">Ad-free Experience</td>
+                      <td className="p-2 border-b text-center">✅</td>
+                    </tr>
+
+                    <tr>
+                      <td className="p-2 border-b">
+                        Access to Exclusive Content
+                      </td>
+                      <td className="p-2 border-b text-center">✅</td>
+                    </tr>
+
+                    <tr>
+                      <td className="p-2 border-b">Priority Content Review</td>
+                      <td className="p-2 border-b text-center">✅</td>
+                    </tr>
+
+                    <tr>
+                      <td className="p-2 border-b">
+                        Advanced Analytics Dashboard
+                      </td>
+                      <td className="p-2 border-b text-center">✅</td>
+                    </tr>
+
+                    <tr>
+                      <td className="p-2 border-b">
+                        Early Access to New Features
+                      </td>
+                      <td className="p-2 border-b text-center">✅</td>
+                    </tr>
+
+                    <tr>
+                      <td className="p-2 border-b">Premium Support</td>
+                      <td className="p-2 border-b text-center">✅</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
               <div className="mt-6">
                 <button
                   onClick={handlePayment}
                   disabled={processing}
                   className={`w-full inline-flex items-center justify-center gap-3 px-4 py-3 rounded-lg text-white font-semibold transition ${
-                    processing ? "bg-slate-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+                    processing
+                      ? "bg-slate-400 cursor-not-allowed"
+                      : "bg-green-600 hover:bg-green-700"
                   }`}
                 >
-                  {processing ? <Spinner className="w-5 h-5" /> : <CheckCircle className="w-5 h-5" />}
-                  <span>{processing ? "Processing…" : `Confirm & Pay BDT ${Number(lifetimePrice).toLocaleString()}`}</span>
+                  {processing ? (
+                    <Spinner className="w-5 h-5" />
+                  ) : (
+                    <CheckCircle className="w-5 h-5" />
+                  )}
+                  <span>
+                    {processing
+                      ? "Processing…"
+                      : `Confirm & Pay BDT ${Number(
+                          lifetimePrice
+                        ).toLocaleString()}`}
+                  </span>
                 </button>
-
-               
               </div>
 
-              <p className="mt-4 text-xs text-slate-400 text-center">You will be redirected to a secure gateway to complete payment.</p>
+              <p className="mt-4 text-xs text-slate-400 text-center">
+                You will be redirected to a secure gateway to complete payment.
+              </p>
             </div>
           </div>
         </div>

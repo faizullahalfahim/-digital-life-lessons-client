@@ -20,7 +20,7 @@ import MyLessons from "../pages/Home/Home/dashboard/MyLesson";
 import ManageUsers from "../pages/Home/Home/dashboard/ManageUsers";
 import ManageLessons from "../pages/Home/Home/dashboard/ManageLessons";
 import ReportedLessons from "../pages/Home/Home/dashboard/ReportedLessons";
-import AdminProfile from "../pages/Home/Home/dashboard/AdminProfile";
+
 
 import MyFavorites from "../pages/Home/Home/dashboard/MyFavorites";
 import NotFound from "../components/NotFound";
@@ -93,7 +93,7 @@ export const router = createBrowserRouter([
     Component: DashboardLayout,
     children: [
       {
-        index: true,
+        path: 'profile',
         Component: Profile
       },
       {
@@ -117,10 +117,7 @@ export const router = createBrowserRouter([
          element: <PrivateRoute> <ReportedLessons> </ReportedLessons></PrivateRoute>
         
       },
-      {
-        path: 'admin-profile',
-        element: <PrivateRoute> <AdminProfile> </AdminProfile></PrivateRoute>
-      },
+      
       {
         path: 'update-lesson/:id',
         element: <PrivateRoute> <UpdateLesson> </UpdateLesson></PrivateRoute>

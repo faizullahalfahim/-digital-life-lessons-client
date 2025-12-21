@@ -1,64 +1,65 @@
-import React, { useEffect } from "react";
-import { useSearchParams, Link } from "react-router";
-import { CheckCircle, Crown, Loader2, Home } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { useSearchParams, useNavigate } from "react-router";
+
+import { CheckCircle, Loader2 } from "lucide-react";
+import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const PaymentSuccess = () => {
-  const axiosSecure = useAxiosSecure();
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
-
-  const isVerified = true;
-  const lessonTitle = "Lifetime Premium Access";
-
-  console.log("Session ID:", sessionId);
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (sessionId) {
-      axiosSecure.post("/payment-success", { sessionId });
+      axiosSecure
+        .post("/payment-success", { sessionId })
+        .then((res) => {
+          if (res.data.success) {
+            setLoading(false);
+            Swal.fire({
+              title: "Success!",
+              text: "Your account has been upgraded to Premium.",
+              icon: "success",
+              confirmButtonText: "Go to Dashboard",
+            }).then(() => {
+              navigate("/dashboard");
+           
+              window.location.reload();
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          setLoading(false);
+        });
     }
-  }, [sessionId, axiosSecure]);
+  }, [sessionId, axiosSecure, navigate]);
 
-  console.log("Payment successful with session ID:", sessionId);
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <Loader2 className="w-12 h-12 animate-spin text-indigo-600" />
+        <h2 className="text-xl font-semibold mt-4">Verifying Payment...</h2>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 text-center border-t-4 border-green-500 transition-all duration-500 transform scale-100">
-        <CheckCircle className="w-16 h-16 text-green-500 mx-auto animate-bounce-in" />
-
-        <h2 className="text-3xl font-extrabold text-green-700 mt-4 mb-2">
-          Payment Successful!
-        </h2>
-
-        <p className="text-lg text-slate-800 font-medium">
-          Welcome to the Premium Club!
-        </p>
-
-        <div className="mt-5 p-4 bg-indigo-50 rounded-lg border border-indigo-200">
-          <p className="text-sm text-indigo-700">
-            You now have **Lifetime Access** to:
-          </p>
-          <h3 className="text-xl font-bold text-indigo-800 mt-1 flex items-center justify-center gap-2">
-            <Crown className="w-5 h-5 fill-indigo-500 text-white" />
-            {lessonTitle}
-          </h3>
-        </div>
-
-        <p className="text-sm text-slate-600 mt-4">
-          Your account access has been updated automatically. Enjoy your
-          lessons!
-        </p>
-
-        <div className="mt-8 space-y-3">
-         
-          <Link
-            to="/"
-            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 text-slate-600 font-semibold rounded-xl hover:bg-slate-100 transition"
-          >
-            <Home className="w-4 h-4" /> Return to Homepage
-          </Link>
-        </div>
-      </div>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+      <CheckCircle className="w-20 h-20 text-green-500 mb-4" />
+      <h1 className="text-3xl font-bold">Payment Successful!</h1>
+      <p className="text-gray-600 mt-2 text-center">
+        Thank you for upgrading. Your lifetime access is now active.
+      </p>
+      <button
+        onClick={() => navigate("/dashboard")}
+        className="mt-6 px-6 py-2 bg-indigo-600 text-white rounded-lg"
+      >
+        Back to Dashboard
+      </button>
     </div>
   );
 };
