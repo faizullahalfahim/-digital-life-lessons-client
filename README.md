@@ -2,7 +2,7 @@
 Empowering shared wisdom through life experiences. Digital Life Lessons is a modern web platform where users can share profound realizations, career advice, and personal growth stories. It features a secure environment for creators to publish content and for learners to gain insights through engagement.
 
 🔗 Live Site URL
-(Note: Replace the link above with your actual deployed URL)
+(https://digitallifelessons.netlify.app/)
 
 ✨ Key Features
 Diverse Content Library: Explore life lessons across multiple categories such as Personal Growth, Career, Relationships, and Mindset, each tagged with specific emotional tones (Motivational, Realization, etc.).
